@@ -15,6 +15,8 @@ let zineDropped = false;
 let animPositionPopup = new p5.Vector();
 let animScalePopup = new p5.Vector();
 
+let machineHue;
+
 function preload() {
     anarchistRadio = loadImage("https://i.imgur.com/ao7C6lT.jpeg");
     anthropozine = loadImage("https://i.imgur.com/39Y0jFA.jpeg");
@@ -66,10 +68,12 @@ function setup() {
 
     textFont(openSansBold);
     textAlign(CENTER);
+
+    machineHue = random(0, 360);
 }
 
 function draw() {
-    background(240);
+    background('rgb(240, 240, 240)');
     noStroke();
 
     let buttonsDisplayed = buttonsPressed.slice(0);
@@ -78,20 +82,23 @@ function draw() {
     }
 
     // Vending machine
-    fill(20, 140, 17);
-    rect(150, 0, 500, 750);
-    stroke(0);
-    rect(225, 640, 280, 75);
+    colorMode(HSB);
+    strokeWeight(3);
+    stroke(machineHue, 88, 25);
+    fill(machineHue, 90, 70);
+    rect(150, -5, 500, 760); // Body
+    rect(225, 640, 280, 75); // Collection door
+    fill(210, 100, 39);
+    rect(185, 35, 360, 580); // Interior
+    colorMode(RGB);
     noStroke();
-    fill(0, 50, 100);
-    rect(185, 35, 360, 580);
 
     // Shelves
     fill(70);
-    rect(185, 154, 360, 15);
-    rect(185, 289, 360, 15);
-    rect(185, 424, 360, 15);
-    rect(185, 559, 360, 15);
+    rect(186.5, 154, 357, 15);
+    rect(186.5, 289, 357, 15);
+    rect(186.5, 424, 357, 15);
+    rect(186.5, 559, 357, 15);
 
     // Big control panel
     fill(200);
@@ -107,8 +114,10 @@ function draw() {
     // Small control panel
     fill(200);
     stroke(150);
+    strokeWeight(1);
     rect(560, 200, 70, 100);
     noStroke();
+    strokeWeight(3);
     fill(50, 150, 200);
     rect(567, 207, 56, 25);
     fill(240);
@@ -192,10 +201,13 @@ function draw() {
         }
         image(animImage, animPosition.x, animPosition.y, animScale.x, animScale.y);
         if (animStage == 2) {
-            fill(20, 140, 17);
-            rect(150, 615, 500, 135);
-            stroke(0);
+            colorMode(HSB);
+            fill(machineHue, 90, 70);
+            rect(153, 618, 496, 135);
+            strokeWeight(3);
+            stroke(machineHue, 88, 25);
             rect(225, 640, 280, 75);
+            colorMode(RGB);
             noStroke();
         }
     }
@@ -203,12 +215,12 @@ function draw() {
     if (interactivePopup) {
         fill(255);
         rect(animPosition.x + animScale.x + 30, animPosition.y, width - (animPosition.x + animScale.x + 100) + 40, chosenZine.titleHeight);
-        rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 190, width - (animPosition.x + animScale.x + 100) + 40, 80);
-        rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 80, width - (animPosition.x + animScale.x + 100) + 40, 80);
-        fill(80);
-        textSize(35);
-        text("Read zine", animPosition.x + animScale.x + 30 + (width - (animPosition.x + animScale.x + 100) + 40) / 2, animPosition.y + animScale.y - 190 + 50)
-        text("Close", animPosition.x + animScale.x + 30 + (width - (animPosition.x + animScale.x + 100) + 40) / 2, animPosition.y + animScale.y - 80 + 50)
+        rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 150, width - (animPosition.x + animScale.x + 100) + 40, 60);
+        rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 60, width - (animPosition.x + animScale.x + 100) + 40, 60);
+        fill(100);
+        textSize(30);
+        text("Read zine", animPosition.x + animScale.x + 30 + (width - (animPosition.x + animScale.x + 100) + 40) / 2, animPosition.y + animScale.y - 150 + 39)
+        text("Close", animPosition.x + animScale.x + 30 + (width - (animPosition.x + animScale.x + 100) + 40) / 2, animPosition.y + animScale.y - 60 + 39)
         fill(0);
         textSize(40);
         textWrap(WORD);
@@ -221,11 +233,11 @@ function draw() {
             if (mouseY > animPosition.y + animScale.y - 190 && mouseY < animPosition.y + animScale.y - 190 + 80) {
                 cursor("pointer");
                 fill(255, 255, 255, 150);
-                rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 190, width - (animPosition.x + animScale.x + 100) + 40, 80);
+                rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 150, width - (animPosition.x + animScale.x + 100) + 40, 60);
             } else if (mouseY > animPosition.y + animScale.y - 80 && mouseY < animPosition.y + animScale.y - 80 + 80) {
                 cursor("pointer");
                 fill(255, 255, 255, 150);
-                rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 80, width - (animPosition.x + animScale.x + 100) + 40, 80);
+                rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 60, width - (animPosition.x + animScale.x + 100) + 40, 60);
             }
         }
     }
