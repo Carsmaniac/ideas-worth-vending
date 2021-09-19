@@ -18,12 +18,19 @@ let animScalePopup = new p5.Vector();
 let machineHue;
 
 function preload() {
-    anarchistRadio = loadImage("https://i.imgur.com/ao7C6lT.jpeg");
-    anthropozine = loadImage("https://i.imgur.com/39Y0jFA.jpeg");
-    burnSomething = loadImage("https://i.imgur.com/V19R5AQ.jpeg");
-    f2020 = loadImage("https://i.imgur.com/Bvlsd5k.jpeg");
-    queerResistance = loadImage("https://i.imgur.com/HxWpCJW.jpeg");
-    starryCosmos = loadImage("https://i.imgur.com/edpbLiR.jpeg");
+    // anarchistRadio = loadImage("https://i.imgur.com/ao7C6lT.jpeg");
+    // anthropozine = loadImage("https://i.imgur.com/39Y0jFA.jpeg");
+    // burnSomething = loadImage("https://i.imgur.com/V19R5AQ.jpeg");
+    // f2020 = loadImage("https://i.imgur.com/Bvlsd5k.jpeg");
+    // queerResistance = loadImage("https://i.imgur.com/HxWpCJW.jpeg");
+    // starryCosmos = loadImage("https://i.imgur.com/edpbLiR.jpeg");
+
+    projectFraming = loadImage("https://i.imgur.com/OrsGT45.png");
+    stakeholderEngagement = loadImage("https://i.imgur.com/SNr4EMs.png");
+    philosophy = loadImage("https://i.imgur.com/bW2goSB.png");
+    diverseKnowledge = loadImage("https://i.imgur.com/lvFjsve.png");
+    valuesEthos = loadImage("https://i.imgur.com/uJUDcxF.png");
+    research = loadImage("https://i.imgur.com/E6xRdkd.png");
 
     openSansBold = loadFont("open-sans-bold.ttf");
 
@@ -37,22 +44,40 @@ function setup() {
     createCanvas(1000, 750);
 
     zines = [];
-    zines.push(new Zine(anarchistRadio, "101", 237, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
-    zines.push(new Zine(anarchistRadio, "102", 322, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
-    zines.push(new Zine(anarchistRadio, "103", 406, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
-    zines.push(new Zine(anthropozine, "104", 492, 154, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
-    zines.push(new Zine(burnSomething, "201", 237, 289, "Burn Something Zine #2", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_cd8ba28e6a7d468185a31da19b40d365.pdf"));
-    zines.push(new Zine(burnSomething, "202", 322, 289, "Burn Something Zine #2", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_cd8ba28e6a7d468185a31da19b40d365.pdf"));
-    zines.push(new Zine(burnSomething, "203", 406, 289, "Burn Something Zine #2", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_cd8ba28e6a7d468185a31da19b40d365.pdf"));
-    zines.push(new Zine(anthropozine, "204", 492, 289, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
-    zines.push(new Zine(f2020, "301", 237, 424, "Fuck 2020 or the DIY Guide to Dealing with the Shit-Storming Dread of Life Right Now", 322, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_48019bb43efa4ec8ac3d158d4047694e.pdf"));
-    zines.push(new Zine(f2020, "302", 322, 424, "Fuck 2020 or the DIY Guide to Dealing with the Shit-Storming Dread of Life Right Now", 322, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_48019bb43efa4ec8ac3d158d4047694e.pdf"));
-    zines.push(new Zine(anthropozine, "303", 406, 424, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
-    zines.push(new Zine(anthropozine, "304", 492, 424, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
-    zines.push(new Zine(queerResistance, "401", 237, 559, "Los Angeles Queer Resistance", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_69d98a570b5e48c0b99cd36a0339d34d.pdf"));
-    zines.push(new Zine(queerResistance, "402", 322, 559, "Los Angeles Queer Resistance", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_69d98a570b5e48c0b99cd36a0339d34d.pdf"));
-    zines.push(new Zine(starryCosmos, "403", 406, 559, "The Odds Against a Starry Cosmos", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_e8f948a6c9844c829209876b14ddd583.pdf"));
-    zines.push(new Zine(starryCosmos, "404", 492, 559, "The Odds Against a Starry Cosmos", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_e8f948a6c9844c829209876b14ddd583.pdf"));
+    // zines.push(new Zine(anarchistRadio, "101", 237, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
+    // zines.push(new Zine(anarchistRadio, "102", 322, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
+    // zines.push(new Zine(anarchistRadio, "103", 406, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
+    // zines.push(new Zine(anthropozine, "104", 492, 154, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
+    // zines.push(new Zine(burnSomething, "201", 237, 289, "Burn Something Zine #2", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_cd8ba28e6a7d468185a31da19b40d365.pdf"));
+    // zines.push(new Zine(burnSomething, "202", 322, 289, "Burn Something Zine #2", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_cd8ba28e6a7d468185a31da19b40d365.pdf"));
+    // zines.push(new Zine(burnSomething, "203", 406, 289, "Burn Something Zine #2", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_cd8ba28e6a7d468185a31da19b40d365.pdf"));
+    // zines.push(new Zine(anthropozine, "204", 492, 289, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
+    // zines.push(new Zine(f2020, "301", 237, 424, "Fuck 2020 or the DIY Guide to Dealing with the Shit-Storming Dread of Life Right Now", 322, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_48019bb43efa4ec8ac3d158d4047694e.pdf"));
+    // zines.push(new Zine(f2020, "302", 322, 424, "Fuck 2020 or the DIY Guide to Dealing with the Shit-Storming Dread of Life Right Now", 322, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_48019bb43efa4ec8ac3d158d4047694e.pdf"));
+    // zines.push(new Zine(anthropozine, "303", 406, 424, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
+    // zines.push(new Zine(anthropozine, "304", 492, 424, "Anthropozine #1", 75, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_ddafde5a87154b24b530eab3c3afa456.pdf"));
+    // zines.push(new Zine(queerResistance, "401", 237, 559, "Los Angeles Queer Resistance", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_69d98a570b5e48c0b99cd36a0339d34d.pdf"));
+    // zines.push(new Zine(queerResistance, "402", 322, 559, "Los Angeles Queer Resistance", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_69d98a570b5e48c0b99cd36a0339d34d.pdf"));
+    // zines.push(new Zine(starryCosmos, "403", 406, 559, "The Odds Against a Starry Cosmos", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_e8f948a6c9844c829209876b14ddd583.pdf"));
+    // zines.push(new Zine(starryCosmos, "404", 492, 559, "The Odds Against a Starry Cosmos", 125, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_e8f948a6c9844c829209876b14ddd583.pdf"));
+
+    zines.push(new Zine(projectFraming, "101", 237, 154, "Project Framing (Clancy)", 125, "https://drive.google.com/file/d/1fzJfbOHv1-6F-HaVjnueMPlEiJEh_CiX/view?usp=sharing"));
+    zines.push(new Zine(projectFraming, "102", 322, 154, "Project Framing (Clancy)", 125, "https://drive.google.com/file/d/1fzJfbOHv1-6F-HaVjnueMPlEiJEh_CiX/view?usp=sharing"));
+    zines.push(new Zine(projectFraming, "103", 406, 154, "Project Framing (Clancy)", 125, "https://drive.google.com/file/d/1fzJfbOHv1-6F-HaVjnueMPlEiJEh_CiX/view?usp=sharing"));
+    zines.push(new Zine(stakeholderEngagement, "104", 492, 154, "Stakeholder Engagement (Georgia)", 175, "https://drive.google.com/file/d/1NiZePVNAgTr8unHavrQfkZClJFxi55SH/view?usp=sharing"));
+    zines.push(new Zine(philosophy, "201", 237, 289, "Philosophy (Arlee)", 75, "https://drive.google.com/file/d/1sN3Lqii18Zo8uzZN5wnfmx_8jWrQwEf5/view?usp=sharing"));
+    zines.push(new Zine(philosophy, "202", 322, 289, "Philosophy (Arlee)", 75, "https://drive.google.com/file/d/1sN3Lqii18Zo8uzZN5wnfmx_8jWrQwEf5/view?usp=sharing"));
+    zines.push(new Zine(philosophy, "203", 406, 289, "Philosophy (Arlee)", 75, "https://drive.google.com/file/d/1sN3Lqii18Zo8uzZN5wnfmx_8jWrQwEf5/view?usp=sharing"));
+    zines.push(new Zine(stakeholderEngagement, "204", 492, 289, "Stakeholder Engagement (Georgia)", 175, "https://drive.google.com/file/d/1NiZePVNAgTr8unHavrQfkZClJFxi55SH/view?usp=sharing"));
+    zines.push(new Zine(diverseKnowledge, "301", 237, 424, "Diversity of Knowledge (Michael)", 175, "https://drive.google.com/file/d/1C5SubYqmtCm9HPbLO-fW8oIPsurOB49b/view?usp=sharing"));
+    zines.push(new Zine(diverseKnowledge, "302", 322, 424, "Diversity of Knowledge (Michael)", 175, "https://drive.google.com/file/d/1C5SubYqmtCm9HPbLO-fW8oIPsurOB49b/view?usp=sharing"));
+    zines.push(new Zine(diverseKnowledge, "303", 406, 424, "Diversity of Knowledge (Michael)", 175, "https://drive.google.com/file/d/1C5SubYqmtCm9HPbLO-fW8oIPsurOB49b/view?usp=sharing"));
+    zines.push(new Zine(stakeholderEngagement, "304", 492, 424, "Stakeholder Engagement (Georgia)", 175, "https://drive.google.com/file/d/1NiZePVNAgTr8unHavrQfkZClJFxi55SH/view?usp=sharing"));
+    zines.push(new Zine(valuesEthos, "401", 237, 559, "Values and Ethos (Annie)", 125, "https://drive.google.com/file/d/1UxPY6x7WKK3XMQ36lt9opVbSSAezl3E6/view?usp=sharing"));
+    zines.push(new Zine(valuesEthos, "402", 322, 559, "Values and Ethos (Annie)", 125, "https://drive.google.com/file/d/1UxPY6x7WKK3XMQ36lt9opVbSSAezl3E6/view?usp=sharing"));
+    zines.push(new Zine(research, "403", 406, 559, "Research (Jules)", 75, "https://drive.google.com/file/d/1elkmT4u4Aszdw6DCZ2WjGIKikFBs_rS5/view?usp=sharing"));
+    zines.push(new Zine(research, "404", 492, 559, "Research (Jules)", 75, "https://drive.google.com/file/d/1elkmT4u4Aszdw6DCZ2WjGIKikFBs_rS5/view?usp=sharing"));
+    // 1: 75, 2: 125, 3: 175, 6: 322
 
     controlPanel = [];
     controlPanel.push(new PanelButton(711, 306, 1));
@@ -84,14 +109,15 @@ function draw() {
     // Vending machine
     colorMode(HSB);
     strokeWeight(3);
-    stroke(machineHue, 88, 25);
+    noStroke();
     fill(machineHue, 90, 70);
     rect(150, -5, 500, 760); // Body
+    stroke(machineHue, 88, 25);
     rect(225, 640, 280, 75); // Collection door
+    noStroke();
     fill(210, 100, 39);
     rect(185, 35, 360, 580); // Interior
     colorMode(RGB);
-    noStroke();
 
     // Shelves
     fill(70);
@@ -203,7 +229,7 @@ function draw() {
         if (animStage == 2) {
             colorMode(HSB);
             fill(machineHue, 90, 70);
-            rect(153, 618, 496, 135);
+            rect(153, 615, 496, 135);
             strokeWeight(3);
             stroke(machineHue, 88, 25);
             rect(225, 640, 280, 75);
@@ -230,11 +256,11 @@ function draw() {
 
         if (mouseX > animPosition.x + animScale.x + 30 && mouseX < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
             cursor(ARROW);
-            if (mouseY > animPosition.y + animScale.y - 190 && mouseY < animPosition.y + animScale.y - 190 + 80) {
+            if (mouseY > animPosition.y + animScale.y - 150 && mouseY < animPosition.y + animScale.y - 150 + 60) {
                 cursor("pointer");
                 fill(255, 255, 255, 150);
                 rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 150, width - (animPosition.x + animScale.x + 100) + 40, 60);
-            } else if (mouseY > animPosition.y + animScale.y - 80 && mouseY < animPosition.y + animScale.y - 80 + 80) {
+            } else if (mouseY > animPosition.y + animScale.y - 60 && mouseY < animPosition.y + animScale.y - 60 + 60) {
                 cursor("pointer");
                 fill(255, 255, 255, 150);
                 rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 60, width - (animPosition.x + animScale.x + 100) + 40, 60);
@@ -283,9 +309,9 @@ function mouseClicked() {
         }
     } else if (interactivePopup) {
         if (mouseX > animPosition.x + animScale.x + 30 && mouseX < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
-            if (mouseY > animPosition.y + animScale.y - 190 && mouseY < animPosition.y + animScale.y - 190 + 80) {
+            if (mouseY > animPosition.y + animScale.y - 150 && mouseY < animPosition.y + animScale.y - 150 + 60) {
                 window.open(chosenZine.link);
-            } else if (mouseY > animPosition.y + animScale.y - 80 && mouseY < animPosition.y + animScale.y - 80 + 80) {
+            } else if (mouseY > animPosition.y + animScale.y - 60 && mouseY < animPosition.y + animScale.y - 60 + 60) {
                 buttonsPressed = [];
                 interactiveButtons = true;
                 interactivePopup = false;
