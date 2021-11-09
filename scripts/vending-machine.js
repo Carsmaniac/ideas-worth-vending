@@ -1,5 +1,12 @@
 let buttonsPressed = [];
 
+let drawWidth;
+let drawHeight;
+let drawOffset;
+let drawScale;
+let drawMousePos = new p5.Vector();
+let drawCanvasSize = new p5.Vector(1000, 750);
+
 let interactiveButtons = true;
 let interactivePopup = false;
 
@@ -16,6 +23,8 @@ let animPositionPopup = new p5.Vector();
 let animScalePopup = new p5.Vector();
 
 let machineHue;
+
+// 664 x 926
 
 function preload() {
     // anarchistRadio = loadImage("https://i.imgur.com/ao7C6lT.jpeg");
@@ -41,7 +50,18 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(1000, 750);
+    createCanvas(windowWidth - 20, windowHeight - 20);
+
+    // Set draw sizes to the biggest drawCanvasSize-ratio rect that can fit on the screen.
+    if ((height / drawCanvasSize.y) > (width / drawCanvasSize.x)) {
+        drawWidth = width;
+        drawHeight = width * drawCanvasSize.y / drawCanvasSize.x;
+    } else {
+        drawHeight = height;
+        drawWidth = height * drawCanvasSize.x / drawCanvasSize.y;
+    }
+    drawOffset = new p5.Vector((width - drawWidth) / 2, (height - drawHeight) / 2);
+    drawScale = drawWidth / drawCanvasSize.x;
 
     zines = [];
     // zines.push(new Zine(anarchistRadio, "101", 237, 154, "For an Anarchist Radio Relay League", 175, "https://652f97d3-0da5-42f5-b04e-87f2bcf109d7.filesusr.com/ugd/8c0bf9_1f988a82398e46f48c712f0fef59bfae.pdf"));
@@ -97,7 +117,34 @@ function setup() {
     machineHue = random(0, 360);
 }
 
+function windowResized() {
+    resizeCanvas(windowWidth - 20, windowHeight - 20);
+    if ((height / 3) > (width / 4)) {
+        drawWidth = width;
+        drawHeight = width * 3 / 4;
+    } else {
+        drawHeight = height;
+        drawWidth = height * 4 / 3;
+    }
+    drawOffset = new p5.Vector((width - drawWidth) / 2, (height - drawHeight) / 2);
+    drawScale = drawWidth / 1000;
+}
+
 function draw() {
+    drawMousePos.set((mouseX - drawOffset.x) / drawScale, (mouseY - drawOffset.y) / drawScale);
+    background(150, 200, 150);
+    fill(255, 0, 0);
+    push();
+    translate(drawOffset.x, drawOffset.y);
+    scale(drawScale);
+    rect(0, 0, 1000, 750);
+    drawn();
+    fill(0, 0, 75);
+    circle(drawMousePos.x, drawMousePos.y, 20);
+    pop();
+}
+
+function drawn() {
     background('rgb(240, 240, 240)');
     noStroke();
 
@@ -254,13 +301,13 @@ function draw() {
         text(chosenZine.title, animPosition.x + animScale.x + 50, animPosition.y + 50, width - (animPosition.x + animScale.x + 100));
         textAlign(CENTER);
 
-        if (mouseX > animPosition.x + animScale.x + 30 && mouseX < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
+        if (drawMousePos.x > animPosition.x + animScale.x + 30 && drawMousePos.x < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
             cursor(ARROW);
-            if (mouseY > animPosition.y + animScale.y - 150 && mouseY < animPosition.y + animScale.y - 150 + 60) {
+            if (drawMousePos.y > animPosition.y + animScale.y - 150 && drawMousePos.y < animPosition.y + animScale.y - 150 + 60) {
                 cursor("pointer");
                 fill(255, 255, 255, 150);
                 rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 150, width - (animPosition.x + animScale.x + 100) + 40, 60);
-            } else if (mouseY > animPosition.y + animScale.y - 60 && mouseY < animPosition.y + animScale.y - 60 + 60) {
+            } else if (drawMousePos.y > animPosition.y + animScale.y - 60 && drawMousePos.y < animPosition.y + animScale.y - 60 + 60) {
                 cursor("pointer");
                 fill(255, 255, 255, 150);
                 rect(animPosition.x + animScale.x + 30, animPosition.y + animScale.y - 60, width - (animPosition.x + animScale.x + 100) + 40, 60);
@@ -308,10 +355,10 @@ function mouseClicked() {
             }
         }
     } else if (interactivePopup) {
-        if (mouseX > animPosition.x + animScale.x + 30 && mouseX < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
-            if (mouseY > animPosition.y + animScale.y - 150 && mouseY < animPosition.y + animScale.y - 150 + 60) {
+        if (drawMousePos.x > animPosition.x + animScale.x + 30 && drawMousePos.x < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
+            if (drawMousePos.y > animPosition.y + animScale.y - 150 && drawMousePos.y < animPosition.y + animScale.y - 150 + 60) {
                 window.open(chosenZine.link);
-            } else if (mouseY > animPosition.y + animScale.y - 60 && mouseY < animPosition.y + animScale.y - 60 + 60) {
+            } else if (drawMousePos.y > animPosition.y + animScale.y - 60 && drawMousePos.y < animPosition.y + animScale.y - 60 + 60) {
                 buttonsPressed = [];
                 interactiveButtons = true;
                 interactivePopup = false;
@@ -363,8 +410,8 @@ class PanelButton {
 
     draw() {
         this.hovered = false;
-        if (mouseX > this.position.x && mouseX < this.bottomCorner.x && interactiveButtons) {
-            if (mouseY > this.position.y && mouseY < this.bottomCorner.y) {
+        if (drawMousePos.x > this.position.x && drawMousePos.x < this.bottomCorner.x && interactiveButtons) {
+            if (drawMousePos.y > this.position.y && drawMousePos.y < this.bottomCorner.y) {
                 this.hovered = true;
             }
         }
