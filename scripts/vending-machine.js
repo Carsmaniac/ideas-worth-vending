@@ -7,17 +7,24 @@ let drawCanvasSize = new p5.Vector(1000, 750);
 
 let interactiveButtons = true;
 let interactivePopup = false;
+let interactiveZoom = true;
 
 let items = [];
 let keypad = [];
 let chosenItem = null;
 let buttonsPressed = [];
 
-let vendStage = 0; // 0 = idle, 1 = moving forward, 2 = falling
+let vendStage = 0;
+let vendStageDelay = 50;
 let vendSizeInitial = new p5.Vector();
 let vendSize = new p5.Vector();
 let vendAnchorInitial = new p5.Vector();
 let vendAnchor = new p5.Vector();
+let zoomSizeInitial = new p5.Vector();
+let zoomSize = new p5.Vector();
+let zoomPositionInitial = new p5.Vector();
+let zoomPosition = new p5.Vector();
+let zoomPercent = 0;
 
 let chosenZine = null;
 let animStage = 0;
@@ -60,14 +67,15 @@ function preload() {
 
     imageName = loadImage("images/sticker-pack.jpg");
     imageAustralianGothic = loadImage("images/australian-gothic.jpg");
-    imageEarrings = loadImage("images/earrings.jpg");
+    imageCommie = loadImage("images/commie.jpg");
+    imageGrrrls = loadImage("images/grrrls.jpg");
     imageEmojiThatDontExist = loadImage("images/emoji-that-dont-exist.jpg");
     imageItaly = loadImage("images/italy.jpg");
     imageLuckyDipFilms = loadImage("images/lucky-dip-films.jpg");
     imagePackOfPoems = loadImage("images/pack-of-poems.jpg");
     imagePostCards = loadImage("images/post-cards.jpg");
     imageQuestionsAboutGender = loadImage("images/questions-about-gender.jpg");
-    imageSittingAround = loadImage("images/sitting-around.jpg");
+    imageMoonBoy = loadImage("images/moon-boy.jpg");
     imageStickerPack = loadImage("images/sticker-pack.jpg");
     imageTheScoobyDoos = loadImage("images/the-scooby-doos.jpg");
 }
@@ -122,21 +130,21 @@ function setup() {
     zines.push(new Zine(research, "404", 492, 559, "Research (Jules)", 75, "https://drive.google.com/file/d/1elkmT4u4Aszdw6DCZ2WjGIKikFBs_rS5/view?usp=sharing"));
     // 1: 75, 2: 125, 3: 175, 6: 322
 
-    items.push(new ItemSlot(imageEarrings, "A1", 152, 86, 41, 64));
-    items.push(new ItemSlot(imageStickerPack, "A2", 197, 86, 41, 64));
-    items.push(new ItemSlot(imageQuestionsAboutGender, "A3", 242, 86, 41, 64));
-    items.push(new ItemSlot(imagePackOfPoems, "A4", 287, 56, 41, 94));
+    items.push(new ItemSlot("Corie Lange", "The Grrrls of the Riot", imageGrrrls, "A1", 152, 86, 41, 64, "beans", false));
+    items.push(new ItemSlot("Jules Rountree", "Titty Stickers", imageStickerPack, "A2", 197, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Annie Walker", "Questions About Gender", imageQuestionsAboutGender, "A3", 242, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Arlee Francis", "A Little Pack of Poems", imagePackOfPoems, "A4", 287, 56, 41, 94, "beans", true));
     // items.push(new ItemSlot(imageName, "A5", 332, 86, 41, 64));
-    items.push(new ItemSlot(imageAustralianGothic, "A6", 377, 86, 41, 64));
+    items.push(new ItemSlot("Henry Indorato", "Australian Gothic", imageAustralianGothic, "A6", 377, 86, 41, 64, "beans", false));
     // items.push(new ItemSlot(imageName, "A7", 422, 86, 41, 64));
-    // items.push(new ItemSlot(imageName, "A8", 467, 86, 41, 64));
-    items.push(new ItemSlot(imagePostCards, "B1", 152, 189, 86, 101));
-    items.push(new ItemSlot(imageItaly, "B2", 242, 189, 86, 101));
-    items.push(new ItemSlot(imageLuckyDipFilms, "B3", 332, 189, 86, 101));
+    items.push(new ItemSlot("Jules Rountree", "Emoji That Don't Exist Yet Stickers", imageEmojiThatDontExist, "A8", 467, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Nick Brouggy", "Postcards from a Dying World", imagePostCards, "B1", 152, 189, 86, 101, "beans", false));
+    items.push(new ItemSlot("Bella Francis", "Photographs from Past Adventures", imageItaly, "B2", 242, 189, 86, 101, "beans", true));
+    items.push(new ItemSlot("Georgia Plantzos", "Lucky Dip Films", imageLuckyDipFilms, "B3", 332, 189, 86, 101, "beans", true));
     // items.push(new ItemSlot(imageName, "B4", 422, 189, 86, 101));
-    // items.push(new ItemSlot(imageName, "C1", 152, 329, 86, 101));
-    items.push(new ItemSlot(imageTheScoobyDoos, "C2", 242, 329, 86, 101));
-    items.push(new ItemSlot(imageSittingAround, "C3", 332, 329, 86, 101));
+    items.push(new ItemSlot("Annie Walker", "Commie By Your Name", imageCommie, "C1", 152, 329, 86, 101, "beans", true));
+    items.push(new ItemSlot("Chloe Kelly", "The Scooby Doos and the Scooby Doon'ts", imageTheScoobyDoos, "C2", 242, 329, 86, 101, "beans", false));
+    items.push(new ItemSlot("Tatiana Davidson", "Moon Boy", imageMoonBoy, "C3", 332, 329, 86, 101, "beans", false));
     // items.push(new ItemSlot(imageName, "C4", 422, 329, 86, 101));
 
     controlPanel = [];
@@ -214,6 +222,10 @@ function draw() {
     drawKeypad();
     pop();
 
+    if (vendStage > vendStageDelay) {
+        drawZoomScreen();
+    }
+
     pop();
 }
 
@@ -255,6 +267,7 @@ function drawKeypad() {
     fill(83, 144, 151);
     rect(700, 130, 221, 75);
 
+    cursor(ARROW);
     for (keypadButton of keypad) {
         keypadButton.mouseIsOver(drawMousePos);
         keypadButton.draw();
@@ -277,13 +290,71 @@ function drawVendedItem() {
             vendStage = 3;
             itemDrop.play();
         }
-    } else if (vendStage > 2 && vendStage < 50) {
+    } else if (vendStage > 2 && vendStage < vendStageDelay) {
         vendStage += 1;
-    } else if (vendStage >= 50) {
-        buttonPress.play();
+    } else if (vendStage == vendStageDelay) {
+        vendStage += 1;
+        let safeZone = new p5.Vector(drawCanvasSize.x - 50, drawCanvasSize.y - 220);
+        if (chosenItem.image.width / chosenItem.image.height > safeZone.x / safeZone.y) {
+            zoomSize.x = min(chosenItem.image.width, safeZone.x);
+            zoomSize.y = min(chosenItem.image.height, chosenItem.image.height / chosenItem.image.width * safeZone.x);
+        } else {
+            zoomSize.x = min(chosenItem.image.width, chosenItem.image.width / chosenItem.image.height * safeZone.y);
+            zoomSize.y = min(chosenItem.image.height, safeZone.y)
+        }
+        zoomSizeInitial.set(vendSize);
+        zoomPosition.set(drawCanvasSize.x / 2 - zoomSize.x / 2, drawCanvasSize.y / 2 - zoomSize.y / 2);
+        zoomPositionInitial.set(355 - vendSize.x / 2, 645 - vendSize.y / 2); // Middle of the collection door
     }
 
-    image(chosenItem.image, vendAnchor.x - vendSize.x / 2, vendAnchor.y - vendSize.y, vendSize.x, vendSize.y);
+    if (vendStage < 3) {
+        image(chosenItem.image, vendAnchor.x - vendSize.x / 2, vendAnchor.y - vendSize.y, vendSize.x, vendSize.y);
+    }
+}
+
+function drawZoomScreen() {
+    if (zoomPercent < 50) {
+        zoomPercent += 0.5 + zoomPercent * 0.06;
+    } else if (zoomPercent < 100) {
+        zoomPercent += 0.1 + (100 - zoomPercent) * 0.06;
+    } else {
+        zoomPercent = 100;
+        interactiveZoom = true;
+    }
+
+    background(0, 0, 0, map(zoomPercent, 0, 100, 0, 125));
+    image(chosenItem.image, map(zoomPercent, 0, 100, zoomPositionInitial.x, zoomPosition.x), map(zoomPercent, 0, 100, zoomPositionInitial.y, zoomPosition.y),
+                            map(zoomPercent, 0, 100, zoomSizeInitial.x, zoomSize.x), map(zoomPercent, 0, 100, zoomSizeInitial.y, zoomSize.y));
+    fill(255, 255, 255, map(zoomPercent, 0, 100, 0, 255));
+    textSize(40);
+    rect(drawCanvasSize.x / 2 - textWidth("Some text here") / 2 - 15, 30, textWidth("Some text here") + 30, 63, 10);
+    fill(0, 0, 0, map(zoomPercent, 0, 100, 0, 255));
+    text("Some text here", drawCanvasSize.x / 2, 75);
+
+    if (zoomPercent == 100) {
+        fill(255);
+        textSize(40);
+        rect(drawCanvasSize.x / 2 - 190 / 2 - 15 - 80, drawCanvasSize.y - 95, 190 + 30, 63, 10);
+        rect(drawCanvasSize.x / 2 - 106 / 2 - 15 + 120, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+        fill(0);
+        if (chosenItem.seeMore) {
+            text("See more", drawCanvasSize.x / 2 - 80, drawCanvasSize.y - 50);
+        } else {
+            text("See artist", drawCanvasSize.x / 2 - 80, drawCanvasSize.y - 50);
+        }
+        text("Close", drawCanvasSize.x / 2 + 120, drawCanvasSize.y - 50);
+        cursor(ARROW);
+        if (drawMousePos.y > drawCanvasSize.y - 95 && drawMousePos.y < drawCanvasSize.y - 32) {
+            fill(255, 255, 255, 150);
+            if (drawMousePos.x > drawCanvasSize.x / 2 - 190 / 2 - 15 - 80 && drawMousePos.x < drawCanvasSize.x / 2 + 190 / 2 - 15 - 80 + 30) {
+                cursor("pointer");
+                rect(drawCanvasSize.x / 2 - 190 / 2 - 15 - 80, drawCanvasSize.y - 95, 190 + 30, 63, 10);
+            } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
+                cursor("pointer");
+                rect(drawCanvasSize.x / 2 - 106 / 2 - 15 + 120, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+            }
+        }
+    }
 }
 
 function drawn() {
@@ -545,14 +616,32 @@ function mouseClicked() {
                 }
             }
         }
+    } else if (interactiveZoom) {
+        if (drawMousePos.y > drawCanvasSize.y - 95 && drawMousePos.y < drawCanvasSize.y - 32) {
+            if (drawMousePos.x > drawCanvasSize.x / 2 - 190 / 2 - 15 - 80 && drawMousePos.x < drawCanvasSize.x / 2 + 190 / 2 - 15 - 80 + 30) {
+                // Open link
+                window.open(chosenItem.link);
+            } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
+                // Close
+                vendStage = 0;
+                zoomPercent = 0;
+                buttonsPressed = [];
+                interactiveZoom = false;
+                interactiveButtons = true;
+            }
+        }
     }
 }
 
 class ItemSlot {
-    constructor(image, value, slotX, slotY, slotWidth, slotHeight) {
+    constructor(author, title, image, value, slotX, slotY, slotWidth, slotHeight, link, seeMore) {
+        this.author = author;
+        this.title = title;
         this.image = image;
         this.value = value;
         this.anchor = new p5.Vector(slotX + slotWidth / 2, slotY + slotHeight);
+        this.link = link;
+        this.seeMore = seeMore;
 
         if (this.image.width / this.image.height > slotWidth / slotHeight) {
             this.scaledSize = new p5.Vector(slotWidth, slotWidth * this.image.height / this.image.width);
@@ -634,6 +723,7 @@ class KeypadButton {
         if (drawMousePos.x > this.position.x && drawMousePos.x < this.position.x + this.size &&
             drawMousePos.y > this.position.y && drawMousePos.y < this.position.y + this.size) {
             this.hovered = true;
+            cursor("pointer");
         } else {
             this.hovered = false;
         }
