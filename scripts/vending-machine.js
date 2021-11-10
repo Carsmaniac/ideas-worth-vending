@@ -111,6 +111,24 @@ function setup() {
     controlPanel.push(new PanelButton(871, 428, 9));
     controlPanel.push(new PanelButton(791, 489, 0));
 
+    keypad = [];
+    keypad.push(new KeypadButton(674, 232, "A"));
+    keypad.push(new KeypadButton(748, 232, "1"));
+    keypad.push(new KeypadButton(822, 232, "2"));
+    keypad.push(new KeypadButton(896, 232, "3"));
+    keypad.push(new KeypadButton(674, 293, "B"));
+    keypad.push(new KeypadButton(748, 293, "4"));
+    keypad.push(new KeypadButton(822, 293, "5"));
+    keypad.push(new KeypadButton(896, 293, "6"));
+    keypad.push(new KeypadButton(674, 354, "C"));
+    keypad.push(new KeypadButton(748, 354, "7"));
+    keypad.push(new KeypadButton(822, 354, "8"));
+    keypad.push(new KeypadButton(896, 354, "9"));
+    keypad.push(new KeypadButton(674, 415, "D"));
+    keypad.push(new KeypadButton(748, 415, "E"));
+    keypad.push(new KeypadButton(822, 415, "F"));
+    keypad.push(new KeypadButton(896, 415, "10"));
+
     textFont(openSansBold);
     textAlign(CENTER);
 
@@ -132,16 +150,87 @@ function windowResized() {
 
 function draw() {
     drawMousePos.set((mouseX - drawOffset.x) / drawScale, (mouseY - drawOffset.y) / drawScale);
-    background(150, 200, 150);
-    fill(255, 0, 0);
+    background(240, 240, 240);
+    noStroke();
+
     push();
     translate(drawOffset.x, drawOffset.y);
     scale(drawScale);
-    rect(0, 0, 1000, 750);
-    drawn();
-    fill(0, 0, 75);
-    circle(drawMousePos.x, drawMousePos.y, 20);
+
+    drawMachine();
+    drawKeypad();
+    
+    // Small keypad on the machine
+    push();
+    translate(358, 80);
+    scale(0.26);
+    drawKeypad();
     pop();
+    pop();
+}
+
+function drawa() {
+
+}
+
+function drawMachine() {
+    // Machine base
+    fill(150, 20, 0);
+    rect(87, 0, 533, 750);
+
+    // Inside
+    fill(30);
+    rect(141, 75, 378, 366);
+
+    // Shelves
+    fill(50);
+    rect(141, 150, 378, 15);
+    rect(141, 290, 378, 15);
+    rect(141, 430, 378, 15);
+
+    // Items
+    fill(0, 255, 0);
+    rect(152, 86, 41, 64);
+    rect(197, 86, 41, 64);
+    rect(242, 86, 41, 64);
+    rect(287, 86, 41, 64);
+    rect(332, 86, 41, 64);
+    rect(377, 86, 41, 64);
+    rect(422, 86, 41, 64);
+    rect(467, 86, 41, 64);
+
+    rect(152, 189, 86, 101);
+    rect(242, 189, 86, 101);
+    rect(332, 189, 86, 101);
+    rect(422, 189, 86, 101);
+
+    rect(152, 329, 86, 101);
+    rect(242, 329, 86, 101);
+    rect(332, 329, 86, 101);
+    rect(422, 329, 86, 101);
+
+    // Bottom of machine
+    fill(150, 20, 0);
+    rect(87, 441, 533, 309);
+
+    // Collection door
+    fill(180, 50, 30);
+    rect(146, 589, 418, 112);
+}
+
+function drawKeypad() {
+    // Base
+    fill(200);
+    rect(639, 75, 342, 433, 15);
+
+    // Screen
+    fill(83, 144, 151);
+    rect(700, 130, 221, 75);
+
+    for (keypadButton of keypad) {
+        keypadButton.mouseIsOver(drawMousePos);
+        keypadButton.draw();
+    }
 }
 
 function drawn() {
@@ -368,6 +457,12 @@ function mouseClicked() {
     }
 }
 
+class ItemSlot {
+    constructor(image, slotValue, slotX, slotY, slotWidth, slotheight) {
+
+    }
+}
+
 class Zine {
     constructor(image, number, xPos, yPos, title, titleHeight, link) {
         this.image = image;
@@ -397,6 +492,48 @@ class Zine {
     drawDot() {
         fill(255, 0, 0);
         ellipse(this.position.x, this.position.y, 10);
+    }
+}
+
+class KeypadButton {
+    constructor(xPos, yPos, value) {
+        this.size = 51;
+        this.radius = 10;
+        this.position = new p5.Vector(xPos, yPos);
+        this.value = value;
+        this.bottomCorner = new p5.Vector(xPos + this.size, yPos + this.size);
+        this.hovered = false;
+    }
+
+    draw() {
+        if (this.hovered) {
+            fill(248);
+        } else {
+            fill(240);
+        }
+        rect(this.position.x, this.position.y, this.size, this.size, this.radius);
+
+        textSize(40);
+        if (this.hovered) {
+            fill(150);
+        } else {
+            fill(100);
+        }
+        if (this.value == "C") {
+            // The C of this font aligns visually with the B and D with a different offset
+            text(this.value, this.position.x + 24.5, this.position.y + 39);
+        } else {
+            text(this.value, this.position.x + 26, this.position.y + 39);
+        }
+    }
+
+    mouseIsOver(drawMousePos) {
+        if (drawMousePos.x > this.position.x && drawMousePos.x < this.position.x + this.size &&
+            drawMousePos.y > this.position.y && drawMousePos.y < this.position.y + this.size) {
+            this.hovered = true;
+        } else {
+            this.hovered = false;
+        }
     }
 }
 
