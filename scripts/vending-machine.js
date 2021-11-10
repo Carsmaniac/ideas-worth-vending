@@ -1,14 +1,23 @@
-let buttonsPressed = [];
-
-let drawWidth;
-let drawHeight;
-let drawOffset;
-let drawScale;
+let drawWidth = 0;
+let drawHeight = 0;
+let drawOffset = new p5.Vector();
+let drawScale = 0;
 let drawMousePos = new p5.Vector();
 let drawCanvasSize = new p5.Vector(1000, 750);
 
 let interactiveButtons = true;
 let interactivePopup = false;
+
+let items = [];
+let keypad = [];
+let chosenItem = null;
+let buttonsPressed = [];
+
+let vendStage = 0; // 0 = idle, 1 = moving forward, 2 = falling
+let vendSizeInitial = new p5.Vector();
+let vendSize = new p5.Vector();
+let vendAnchorInitial = new p5.Vector();
+let vendAnchor = new p5.Vector();
 
 let chosenZine = null;
 let animStage = 0;
@@ -23,8 +32,6 @@ let animPositionPopup = new p5.Vector();
 let animScalePopup = new p5.Vector();
 
 let machineHue;
-
-// 664 x 926
 
 function preload() {
     // anarchistRadio = loadImage("https://i.imgur.com/ao7C6lT.jpeg");
@@ -46,7 +53,23 @@ function preload() {
     buttonPress = loadSound("sounds/button-press.mp3");
     buttonError = loadSound("sounds/button-error.mp3");
     zineDrop = loadSound("sounds/zine-drop.mp3");
+    itemDrop = loadSound("sounds/item-drop.mp3");
     machineWhirr = loadSound("sounds/machine-whirr.mp3");
+    bestGirl = loadSound("sounds/best-girl.mp3");
+    bestBoy = loadSound("sounds/best-boy.mp3")
+
+    imageName = loadImage("images/sticker-pack.jpg");
+    imageAustralianGothic = loadImage("images/australian-gothic.jpg");
+    imageEarrings = loadImage("images/earrings.jpg");
+    imageEmojiThatDontExist = loadImage("images/emoji-that-dont-exist.jpg");
+    imageItaly = loadImage("images/italy.jpg");
+    imageLuckyDipFilms = loadImage("images/lucky-dip-films.jpg");
+    imagePackOfPoems = loadImage("images/pack-of-poems.jpg");
+    imagePostCards = loadImage("images/post-cards.jpg");
+    imageQuestionsAboutGender = loadImage("images/questions-about-gender.jpg");
+    imageSittingAround = loadImage("images/sitting-around.jpg");
+    imageStickerPack = loadImage("images/sticker-pack.jpg");
+    imageTheScoobyDoos = loadImage("images/the-scooby-doos.jpg");
 }
 
 function setup() {
@@ -99,6 +122,23 @@ function setup() {
     zines.push(new Zine(research, "404", 492, 559, "Research (Jules)", 75, "https://drive.google.com/file/d/1elkmT4u4Aszdw6DCZ2WjGIKikFBs_rS5/view?usp=sharing"));
     // 1: 75, 2: 125, 3: 175, 6: 322
 
+    items.push(new ItemSlot(imageEarrings, "A1", 152, 86, 41, 64));
+    items.push(new ItemSlot(imageStickerPack, "A2", 197, 86, 41, 64));
+    items.push(new ItemSlot(imageQuestionsAboutGender, "A3", 242, 86, 41, 64));
+    items.push(new ItemSlot(imagePackOfPoems, "A4", 287, 56, 41, 94));
+    // items.push(new ItemSlot(imageName, "A5", 332, 86, 41, 64));
+    items.push(new ItemSlot(imageAustralianGothic, "A6", 377, 86, 41, 64));
+    // items.push(new ItemSlot(imageName, "A7", 422, 86, 41, 64));
+    // items.push(new ItemSlot(imageName, "A8", 467, 86, 41, 64));
+    items.push(new ItemSlot(imagePostCards, "B1", 152, 189, 86, 101));
+    items.push(new ItemSlot(imageItaly, "B2", 242, 189, 86, 101));
+    items.push(new ItemSlot(imageLuckyDipFilms, "B3", 332, 189, 86, 101));
+    // items.push(new ItemSlot(imageName, "B4", 422, 189, 86, 101));
+    // items.push(new ItemSlot(imageName, "C1", 152, 329, 86, 101));
+    items.push(new ItemSlot(imageTheScoobyDoos, "C2", 242, 329, 86, 101));
+    items.push(new ItemSlot(imageSittingAround, "C3", 332, 329, 86, 101));
+    // items.push(new ItemSlot(imageName, "C4", 422, 329, 86, 101));
+
     controlPanel = [];
     controlPanel.push(new PanelButton(711, 306, 1));
     controlPanel.push(new PanelButton(791, 306, 2));
@@ -111,7 +151,6 @@ function setup() {
     controlPanel.push(new PanelButton(871, 428, 9));
     controlPanel.push(new PanelButton(791, 489, 0));
 
-    keypad = [];
     keypad.push(new KeypadButton(674, 232, "A"));
     keypad.push(new KeypadButton(748, 232, "1"));
     keypad.push(new KeypadButton(822, 232, "2"));
@@ -150,6 +189,7 @@ function windowResized() {
 
 function draw() {
     drawMousePos.set((mouseX - drawOffset.x) / drawScale, (mouseY - drawOffset.y) / drawScale);
+
     background(240, 240, 240);
     noStroke();
 
@@ -157,23 +197,27 @@ function draw() {
     translate(drawOffset.x, drawOffset.y);
     scale(drawScale);
 
-    drawMachine();
+    drawMachineBackground();
     drawKeypad();
-    
-    // Small keypad on the machine
+
+    for (item of items) {
+        item.draw();
+    }
+    if (vendStage > 0) {
+        drawVendedItem();
+    }
+
+    drawMachineForeground();
     push();
     translate(358, 80);
     scale(0.26);
     drawKeypad();
     pop();
+
     pop();
 }
 
-function drawa() {
-
-}
-
-function drawMachine() {
+function drawMachineBackground() {
     // Machine base
     fill(150, 20, 0);
     rect(87, 0, 533, 750);
@@ -187,30 +231,14 @@ function drawMachine() {
     rect(141, 150, 378, 15);
     rect(141, 290, 378, 15);
     rect(141, 430, 378, 15);
+}
 
-    // Items
-    fill(0, 255, 0);
-    rect(152, 86, 41, 64);
-    rect(197, 86, 41, 64);
-    rect(242, 86, 41, 64);
-    rect(287, 86, 41, 64);
-    rect(332, 86, 41, 64);
-    rect(377, 86, 41, 64);
-    rect(422, 86, 41, 64);
-    rect(467, 86, 41, 64);
-
-    rect(152, 189, 86, 101);
-    rect(242, 189, 86, 101);
-    rect(332, 189, 86, 101);
-    rect(422, 189, 86, 101);
-
-    rect(152, 329, 86, 101);
-    rect(242, 329, 86, 101);
-    rect(332, 329, 86, 101);
-    rect(422, 329, 86, 101);
-
-    // Bottom of machine
+function drawMachineForeground() {
+    // Edges of machine
     fill(150, 20, 0);
+    rect(87, 0, 533, 75);
+    rect(88, 0, 43, 750);
+    rect(519, 0, 102, 750);
     rect(87, 441, 533, 309);
 
     // Collection door
@@ -231,6 +259,31 @@ function drawKeypad() {
         keypadButton.mouseIsOver(drawMousePos);
         keypadButton.draw();
     }
+}
+
+function drawVendedItem() {
+    if (vendStage == 1) {
+        if (vendSize.x < vendSizeInitial.x * 1.25) {
+            vendSize.x *= 1.0018;
+            vendSize.y *= 1.0018;
+        } else {
+            vendStage = 2;
+        }
+    } else if (vendStage == 2) {
+        if (vendAnchor.y < 725) {
+            vendAnchor.y += (vendAnchor.y - vendAnchorInitial.y) * 0.05;
+            vendAnchor.y += 3;
+        } else {
+            vendStage = 3;
+            itemDrop.play();
+        }
+    } else if (vendStage > 2 && vendStage < 50) {
+        vendStage += 1;
+    } else if (vendStage >= 50) {
+        buttonPress.play();
+    }
+
+    image(chosenItem.image, vendAnchor.x - vendSize.x / 2, vendAnchor.y - vendSize.y, vendSize.x, vendSize.y);
 }
 
 function drawn() {
@@ -406,60 +459,110 @@ function drawn() {
 }
 
 function mouseClicked() {
+    // if (interactiveButtons) {
+    //     if (buttonsPressed.length < 3) {
+    //         for (panelButton of controlPanel) {
+    //             if (panelButton.hovered) {
+    //                 append(buttonsPressed, panelButton.number);
+    //                 buttonPress.play();
+    //                 if (buttonsPressed.length == 3) {
+    //                     interactiveButtons = false;
+    //                     chosenZine = null;
+    //                     for (zine of zines) {
+    //                         if (zine.number == buttonsPressed.join("")) {
+    //                             chosenZine = zine;
+    //                             animImage = zine.image;
+    //                             animScale = new p5.Vector(zine.width, zine.height);
+    //                             animScaleInitial = new p5.Vector(animScale.x, animScale.y);
+    //                             animPosition = new p5.Vector(zine.position.x - animScale.x / 2, zine.position.y - animScale.y);
+    //                             animPositionInitial = new p5.Vector(animPosition.x, animPosition.y);
+    //                         }
+    //                     }
+    //                     if (chosenZine != null) {
+    //                         machineWhirr.play();
+    //                         animStage = 1;
+    //                         animMove = 1;
+    //                         zineDropped = false;
+    //                     } else if (buttonsPressed.join("") == "069" || buttonsPressed.join("") == "420") {
+    //                         window.open("https://www.youtube.com/watch?v=CYqq9Ovz_9c");
+    //                         interactiveButtons = true;
+    //                         buttonsPressed = [];
+    //                     } else {
+    //                         buttonError.play();
+    //                         interactiveButtons = true;
+    //                         buttonsPressed = [];
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // } else if (interactivePopup) {
+    //     if (drawMousePos.x > animPosition.x + animScale.x + 30 && drawMousePos.x < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
+    //         if (drawMousePos.y > animPosition.y + animScale.y - 150 && drawMousePos.y < animPosition.y + animScale.y - 150 + 60) {
+    //             window.open(chosenZine.link);
+    //         } else if (drawMousePos.y > animPosition.y + animScale.y - 60 && drawMousePos.y < animPosition.y + animScale.y - 60 + 60) {
+    //             buttonsPressed = [];
+    //             interactiveButtons = true;
+    //             interactivePopup = false;
+    //             animStage = 0;
+    //         }
+    //     }
+    // }
+
     if (interactiveButtons) {
-        if (buttonsPressed.length < 3) {
-            for (panelButton of controlPanel) {
-                if (panelButton.hovered) {
-                    append(buttonsPressed, panelButton.number);
-                    buttonPress.play();
-                    if (buttonsPressed.length == 3) {
-                        interactiveButtons = false;
-                        chosenZine = null;
-                        for (zine of zines) {
-                            if (zine.number == buttonsPressed.join("")) {
-                                chosenZine = zine;
-                                animImage = zine.image;
-                                animScale = new p5.Vector(zine.width, zine.height);
-                                animScaleInitial = new p5.Vector(animScale.x, animScale.y);
-                                animPosition = new p5.Vector(zine.position.x - animScale.x / 2, zine.position.y - animScale.y);
-                                animPositionInitial = new p5.Vector(animPosition.x, animPosition.y);
-                            }
-                        }
-                        if (chosenZine != null) {
-                            machineWhirr.play();
-                            animStage = 1;
-                            animMove = 1;
-                            zineDropped = false;
-                        } else if (buttonsPressed.join("") == "069" || buttonsPressed.join("") == "420") {
-                            window.open("https://www.youtube.com/watch?v=CYqq9Ovz_9c");
-                            interactiveButtons = true;
-                            buttonsPressed = [];
-                        } else {
-                            buttonError.play();
-                            interactiveButtons = true;
-                            buttonsPressed = [];
+        for (keypadButton of keypad) {
+            if (keypadButton.hovered) {
+                append(buttonsPressed, keypadButton.value);
+                buttonPress.play();
+                if (buttonsPressed.length == 2) {
+                    interactiveButtons = false;
+                    chosenItem = null;
+                    for (item of items) {
+                        if (item.value == buttonsPressed.join("")) {
+                            chosenItem = item;
                         }
                     }
+                    if (chosenItem != null) {
+                        machineWhirr.play();
+                        vendStage = 1;
+                        vendSizeInitial.set(chosenItem.scaledSize);
+                        vendSize.set(vendSizeInitial);
+                        vendAnchorInitial.set(chosenItem.anchor);
+                        vendAnchor.set(vendAnchorInitial);
+                    } else if (buttonsPressed.join("") == "42") {
+                        bestGirl.play();
+                        interactiveButtons = true;
+                        buttonsPressed = [];
+                    } else if (buttonsPressed.join("") == "69") {
+                        bestBoy.play();
+                        interactiveButtons = true;
+                        buttonsPressed = [];
+                    } else {
+                        buttonError.play();
+                        interactiveButtons = true;
+                        buttonsPressed = [];
+                    }
                 }
-            }
-        }
-    } else if (interactivePopup) {
-        if (drawMousePos.x > animPosition.x + animScale.x + 30 && drawMousePos.x < animPosition.x + animScale.x + 30 + width - (animPosition.x + animScale.x + 100) + 40) {
-            if (drawMousePos.y > animPosition.y + animScale.y - 150 && drawMousePos.y < animPosition.y + animScale.y - 150 + 60) {
-                window.open(chosenZine.link);
-            } else if (drawMousePos.y > animPosition.y + animScale.y - 60 && drawMousePos.y < animPosition.y + animScale.y - 60 + 60) {
-                buttonsPressed = [];
-                interactiveButtons = true;
-                interactivePopup = false;
-                animStage = 0;
             }
         }
     }
 }
 
 class ItemSlot {
-    constructor(image, slotValue, slotX, slotY, slotWidth, slotheight) {
+    constructor(image, value, slotX, slotY, slotWidth, slotHeight) {
+        this.image = image;
+        this.value = value;
+        this.anchor = new p5.Vector(slotX + slotWidth / 2, slotY + slotHeight);
 
+        if (this.image.width / this.image.height > slotWidth / slotHeight) {
+            this.scaledSize = new p5.Vector(slotWidth, slotWidth * this.image.height / this.image.width);
+        } else {
+            this.scaledSize = new p5.Vector(slotHeight * this.image.width / this.image.height, slotHeight);
+        }
+    }
+
+    draw() {
+        image(this.image, this.anchor.x - this.scaledSize.x / 2, this.anchor.y - this.scaledSize.y, this.scaledSize.x, this.scaledSize.y)
     }
 }
 
@@ -506,7 +609,7 @@ class KeypadButton {
     }
 
     draw() {
-        if (this.hovered) {
+        if (this.hovered && interactiveButtons) {
             fill(248);
         } else {
             fill(240);
@@ -514,7 +617,7 @@ class KeypadButton {
         rect(this.position.x, this.position.y, this.size, this.size, this.radius);
 
         textSize(40);
-        if (this.hovered) {
+        if (this.hovered && interactiveButtons) {
             fill(150);
         } else {
             fill(100);
