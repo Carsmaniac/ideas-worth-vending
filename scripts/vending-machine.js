@@ -43,10 +43,12 @@ function preload() {
     imageAustralianGothic = loadImage("images/australian-gothic.jpg");
     imageCommie = loadImage("images/commie.jpg");
     imageGrrrls = loadImage("images/grrrls.jpg");
+    imageHalfBakedIdeas = loadImage("images/half-baked-ideas.jpg");
     imageEmojiThatDontExist = loadImage("images/emoji-that-dont-exist.jpg");
     imageItaly = loadImage("images/italy.jpg");
     imageLuckyDipFilms = loadImage("images/lucky-dip-films.jpg");
     imagePackOfPoems = loadImage("images/pack-of-poems.jpg");
+    imagePicturesOfVinDiesel = loadImage("images/pictures-of-vin-diesel.jpg");
     imagePostCards = loadImage("images/post-cards.jpg");
     imageQuestionsAboutGender = loadImage("images/questions-about-gender.jpg");
     imageMoonBoy = loadImage("images/moon-boy.jpg");
@@ -75,9 +77,9 @@ function setup() {
     items.push(new ItemSlot("Jules Rountree", "Titty Stickers", "$6", imageStickerPack, "A2", 197, 86, 41, 64, "beans", true));
     items.push(new ItemSlot("Annie Walker", "Questions About Gender", "$2", imageQuestionsAboutGender, "A3", 242, 86, 41, 64, "beans", true));
     items.push(new ItemSlot("Arlee Francis", "A Little Pack of Poems", "$6", imagePackOfPoems, "A4", 287, 56, 41, 94, "beans", true));
-    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "A5", 332, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Annie Walker", "Pictures of Vin Diesel Taking a Selfie", "$2", imagePicturesOfVinDiesel, "A5", 332, 86, 41, 64, "beans", true));
     items.push(new ItemSlot("Henry Indorato", "Australian Gothic", "$2", imageAustralianGothic, "A6", 377, 86, 41, 64, "https://www.instagram.com/localamity/", false));
-    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "A7", 422, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Annie Walker", "Half-Baked Ideas That I Put on My Instagram Story", "$2", imageHalfBakedIdeas, "A7", 422, 86, 41, 64, "beans", true));
     items.push(new ItemSlot("Jules Rountree", "Emoji That Don't Exist Yet Stickers", "$4", imageEmojiThatDontExist, "A8", 467, 86, 41, 64, "beans", true));
     items.push(new ItemSlot("Nick Brouggy", "Postcards from a Dying World", "$6", imagePostCards, "B1", 152, 189, 86, 101, "https://www.instagram.com/caffeinatedpolygon/", false));
     items.push(new ItemSlot("Bella Francis", "Photographs from Past Adventures", "$6", imageItaly, "B2", 242, 189, 86, 101, "https://www.instagram.com/", false));
