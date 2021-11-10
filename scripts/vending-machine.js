@@ -54,7 +54,7 @@ function preload() {
     imageTheScoobyDoos = loadImage("images/the-scooby-doos.jpg");
 
     imageMachineName = loadImage("images/machine-name.png");
-    imageEmpty = loadImage("images/empty.png");
+    imageEmpty = loadImage("images/ideas-loading.jpg");
 }
 
 function setup() {
