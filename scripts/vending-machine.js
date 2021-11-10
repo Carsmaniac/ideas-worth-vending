@@ -328,7 +328,7 @@ function drawZoomScreen() {
     }
 }
 
-function mouseClicked() {
+function touchEnded() {
     if (interactiveButtons) {
         for (keypadButton of keypad) {
             if (keypadButton.hovered) {
