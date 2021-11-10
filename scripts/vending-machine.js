@@ -13,6 +13,7 @@ let items = [];
 let keypad = [];
 let chosenItem = null;
 let buttonsPressed = [];
+let invalidTimer = 0;
 
 let vendStage = 0;
 let vendStageDelay = 50;
@@ -38,7 +39,7 @@ let zineDropped = false;
 let animPositionPopup = new p5.Vector();
 let animScalePopup = new p5.Vector();
 
-let machineHue;
+let machineHue = 0;
 
 function preload() {
     // anarchistRadio = loadImage("https://i.imgur.com/ao7C6lT.jpeg");
@@ -65,7 +66,6 @@ function preload() {
     bestGirl = loadSound("sounds/best-girl.mp3");
     bestBoy = loadSound("sounds/best-boy.mp3")
 
-    imageName = loadImage("images/sticker-pack.jpg");
     imageAustralianGothic = loadImage("images/australian-gothic.jpg");
     imageCommie = loadImage("images/commie.jpg");
     imageGrrrls = loadImage("images/grrrls.jpg");
@@ -78,6 +78,9 @@ function preload() {
     imageMoonBoy = loadImage("images/moon-boy.jpg");
     imageStickerPack = loadImage("images/sticker-pack.jpg");
     imageTheScoobyDoos = loadImage("images/the-scooby-doos.jpg");
+
+    imageMachineName = loadImage("images/machine-name.png");
+    imageEmpty = loadImage("images/empty.png");
 }
 
 function setup() {
@@ -130,22 +133,22 @@ function setup() {
     zines.push(new Zine(research, "404", 492, 559, "Research (Jules)", 75, "https://drive.google.com/file/d/1elkmT4u4Aszdw6DCZ2WjGIKikFBs_rS5/view?usp=sharing"));
     // 1: 75, 2: 125, 3: 175, 6: 322
 
-    items.push(new ItemSlot("Corie Lange", "The Grrrls of the Riot", imageGrrrls, "A1", 152, 86, 41, 64, "beans", false));
-    items.push(new ItemSlot("Jules Rountree", "Titty Stickers", imageStickerPack, "A2", 197, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Annie Walker", "Questions About Gender", imageQuestionsAboutGender, "A3", 242, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Arlee Francis", "A Little Pack of Poems", imagePackOfPoems, "A4", 287, 56, 41, 94, "beans", true));
-    // items.push(new ItemSlot(imageName, "A5", 332, 86, 41, 64));
-    items.push(new ItemSlot("Henry Indorato", "Australian Gothic", imageAustralianGothic, "A6", 377, 86, 41, 64, "beans", false));
-    // items.push(new ItemSlot(imageName, "A7", 422, 86, 41, 64));
-    items.push(new ItemSlot("Jules Rountree", "Emoji That Don't Exist Yet Stickers", imageEmojiThatDontExist, "A8", 467, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Nick Brouggy", "Postcards from a Dying World", imagePostCards, "B1", 152, 189, 86, 101, "beans", false));
-    items.push(new ItemSlot("Bella Francis", "Photographs from Past Adventures", imageItaly, "B2", 242, 189, 86, 101, "beans", true));
-    items.push(new ItemSlot("Georgia Plantzos", "Lucky Dip Films", imageLuckyDipFilms, "B3", 332, 189, 86, 101, "beans", true));
-    // items.push(new ItemSlot(imageName, "B4", 422, 189, 86, 101));
-    items.push(new ItemSlot("Annie Walker", "Commie By Your Name", imageCommie, "C1", 152, 329, 86, 101, "beans", true));
-    items.push(new ItemSlot("Chloe Kelly", "The Scooby Doos and the Scooby Doon'ts", imageTheScoobyDoos, "C2", 242, 329, 86, 101, "beans", false));
-    items.push(new ItemSlot("Tatiana Davidson", "Moon Boy", imageMoonBoy, "C3", 332, 329, 86, 101, "beans", false));
-    // items.push(new ItemSlot(imageName, "C4", 422, 329, 86, 101));
+    items.push(new ItemSlot("Corie Lange", "The Grrrls of the Riot", "$8", imageGrrrls, "A1", 152, 86, 41, 64, "https://www.instagram.com/c.a.lange/", false));
+    items.push(new ItemSlot("Jules Rountree", "Titty Stickers", "$6", imageStickerPack, "A2", 197, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Annie Walker", "Questions About Gender", "$2", imageQuestionsAboutGender, "A3", 242, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Arlee Francis", "A Little Pack of Poems", "$6", imagePackOfPoems, "A4", 287, 56, 41, 94, "beans", true));
+    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "A5", 332, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Henry Indorato", "Australian Gothic", "$2", imageAustralianGothic, "A6", 377, 86, 41, 64, "https://www.instagram.com/localamity/", false));
+    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "A7", 422, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Jules Rountree", "Emoji That Don't Exist Yet Stickers", "$4", imageEmojiThatDontExist, "A8", 467, 86, 41, 64, "beans", true));
+    items.push(new ItemSlot("Nick Brouggy", "Postcards from a Dying World", "$6", imagePostCards, "B1", 152, 189, 86, 101, "https://www.instagram.com/caffeinatedpolygon/", false));
+    items.push(new ItemSlot("Bella Francis", "Photographs from Past Adventures", "$6", imageItaly, "B2", 242, 189, 86, 101, "https://www.instagram.com/", false));
+    items.push(new ItemSlot("Georgia Plantzos", "Lucky Dip Films", "$6", imageLuckyDipFilms, "B3", 332, 189, 86, 101, "beans", true));
+    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "B4", 422, 189, 86, 101, "beans", true));
+    items.push(new ItemSlot("Annie Walker", "Commie By Your Name", "$4", imageCommie, "C1", 152, 329, 86, 101, "beans", true));
+    items.push(new ItemSlot("Chloe Kelly", "The Scooby Doos and the Scooby Doon'ts", "$6", imageTheScoobyDoos, "C2", 242, 329, 86, 101, "https://www.instagram.com/chloekellymcfadden/", false));
+    items.push(new ItemSlot("Tatiana Davidson", "Moon Boy", "$4", imageMoonBoy, "C3", 332, 329, 86, 101, "https://www.instagram.com/", false));
+    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "C4", 422, 329, 86, 101, "beans", true));
 
     controlPanel = [];
     controlPanel.push(new PanelButton(711, 306, 1));
@@ -178,8 +181,6 @@ function setup() {
 
     textFont(openSansBold);
     textAlign(CENTER);
-
-    machineHue = random(0, 360);
 }
 
 function windowResized() {
@@ -227,11 +228,24 @@ function draw() {
     }
 
     pop();
+
+    if (invalidTimer > 0) {
+        invalidTimer -= 1;
+    } else if (invalidTimer < 0) {
+        invalidTimer += 1;
+    }
+
+    machineHue += 0.1;
+    if (machineHue > 360) {
+        machineHue = 0;
+    }
 }
 
 function drawMachineBackground() {
     // Machine base
-    fill(150, 20, 0);
+    colorMode(HSB);
+    fill(machineHue, 120, 100);
+    colorMode(RGB);
     rect(87, 0, 533, 750);
 
     // Inside
@@ -247,25 +261,50 @@ function drawMachineBackground() {
 
 function drawMachineForeground() {
     // Edges of machine
-    fill(150, 20, 0);
+    colorMode(HSB);
+    fill(machineHue, 120, 75);
     rect(87, 0, 533, 75);
-    rect(88, 0, 43, 750);
+    rect(87, 0, 54, 750);
     rect(519, 0, 102, 750);
-    rect(87, 441, 533, 309);
+    rect(87, 445, 533, 305);
 
     // Collection door
-    fill(180, 50, 30);
-    rect(146, 589, 418, 112);
+    fill(machineHue, 105, 55);
+    rect(146, 589, 418, 112, 5);
+    colorMode(RGB);
+
+    // IDEAS WORTH VENDING
+    image(imageMachineName, 130, 15, imageMachineName.width * 0.23, imageMachineName.height * 0.23);
 }
 
 function drawKeypad() {
     // Base
-    fill(200);
+    fill(175);
     rect(639, 75, 342, 433, 15);
 
     // Screen
     fill(83, 144, 151);
     rect(700, 130, 221, 75);
+
+    // Screen text
+    fill(25, 75, 100);
+    textSize(30);
+    if (buttonsPressed.length == 0) {
+        if (invalidTimer > 0) {
+            text("INVALID", 810, 160);
+        } else if (invalidTimer < 0) {
+            text("NICE", 810, 160);
+        } else {
+            text("INPUT", 810, 160);
+        }
+        text("SELECTION", 810, 193);
+    } else {
+        text(buttonsPressed.join(""), 810, 160);
+        if (chosenItem != null) {
+            text(chosenItem.price, 810, 193);
+        }
+    }
+
 
     cursor(ARROW);
     for (keypadButton of keypad) {
@@ -294,7 +333,7 @@ function drawVendedItem() {
         vendStage += 1;
     } else if (vendStage == vendStageDelay) {
         vendStage += 1;
-        let safeZone = new p5.Vector(drawCanvasSize.x - 50, drawCanvasSize.y - 220);
+        let safeZone = new p5.Vector(drawCanvasSize.x - 50, drawCanvasSize.y - 255);
         if (chosenItem.image.width / chosenItem.image.height > safeZone.x / safeZone.y) {
             zoomSize.x = min(chosenItem.image.width, safeZone.x);
             zoomSize.y = min(chosenItem.image.height, chosenItem.image.height / chosenItem.image.width * safeZone.x);
@@ -302,8 +341,8 @@ function drawVendedItem() {
             zoomSize.x = min(chosenItem.image.width, chosenItem.image.width / chosenItem.image.height * safeZone.y);
             zoomSize.y = min(chosenItem.image.height, safeZone.y)
         }
-        zoomSizeInitial.set(vendSize);
-        zoomPosition.set(drawCanvasSize.x / 2 - zoomSize.x / 2, drawCanvasSize.y / 2 - zoomSize.y / 2);
+        zoomSizeInitial.set(vendSize.x * 0.8, vendSize.y * 0.8);
+        zoomPosition.set(drawCanvasSize.x / 2 - zoomSize.x / 2, drawCanvasSize.y / 2 - zoomSize.y / 2 + 17);
         zoomPositionInitial.set(355 - vendSize.x / 2, 645 - vendSize.y / 2); // Middle of the collection door
     }
 
@@ -327,9 +366,15 @@ function drawZoomScreen() {
                             map(zoomPercent, 0, 100, zoomSizeInitial.x, zoomSize.x), map(zoomPercent, 0, 100, zoomSizeInitial.y, zoomSize.y));
     fill(255, 255, 255, map(zoomPercent, 0, 100, 0, 255));
     textSize(40);
-    rect(drawCanvasSize.x / 2 - textWidth("Some text here") / 2 - 15, 30, textWidth("Some text here") + 30, 63, 10);
+    let namePlateWidth = textWidth(chosenItem.title);
+    textSize(25);
+    namePlateWidth = max(namePlateWidth, textWidth(chosenItem.author))
+    rect(drawCanvasSize.x / 2 - namePlateWidth / 2 - 15, 30, namePlateWidth + 30, 100, 10);
     fill(0, 0, 0, map(zoomPercent, 0, 100, 0, 255));
-    text("Some text here", drawCanvasSize.x / 2, 75);
+    textSize(40);
+    text(chosenItem.title, drawCanvasSize.x / 2, 75);
+    textSize(25);
+    text(chosenItem.author, drawCanvasSize.x / 2, 115);
 
     if (zoomPercent == 100) {
         fill(255);
@@ -589,7 +634,7 @@ function mouseClicked() {
                     interactiveButtons = false;
                     chosenItem = null;
                     for (item of items) {
-                        if (item.value == buttonsPressed.join("")) {
+                        if (item.value == buttonsPressed.join("") && item.image != imageEmpty) {
                             chosenItem = item;
                         }
                     }
@@ -604,14 +649,17 @@ function mouseClicked() {
                         bestGirl.play();
                         interactiveButtons = true;
                         buttonsPressed = [];
+                        invalidTimer = -100;
                     } else if (buttonsPressed.join("") == "69") {
                         bestBoy.play();
                         interactiveButtons = true;
                         buttonsPressed = [];
+                        invalidTimer = -100;
                     } else {
                         buttonError.play();
                         interactiveButtons = true;
                         buttonsPressed = [];
+                        invalidTimer = 60;
                     }
                 }
             }
@@ -620,7 +668,11 @@ function mouseClicked() {
         if (drawMousePos.y > drawCanvasSize.y - 95 && drawMousePos.y < drawCanvasSize.y - 32) {
             if (drawMousePos.x > drawCanvasSize.x / 2 - 190 / 2 - 15 - 80 && drawMousePos.x < drawCanvasSize.x / 2 + 190 / 2 - 15 - 80 + 30) {
                 // Open link
-                window.open(chosenItem.link);
+                if (chosenItem.seeMore) {
+                    window.alert("This feature's not finished yet, sorry! You'll have to buy one from the physical machine instead :)");
+                } else {
+                    window.open(chosenItem.link);
+                }
             } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
                 // Close
                 vendStage = 0;
@@ -628,15 +680,17 @@ function mouseClicked() {
                 buttonsPressed = [];
                 interactiveZoom = false;
                 interactiveButtons = true;
+                chosenItem = null;
             }
         }
     }
 }
 
 class ItemSlot {
-    constructor(author, title, image, value, slotX, slotY, slotWidth, slotHeight, link, seeMore) {
+    constructor(author, title, price, image, value, slotX, slotY, slotWidth, slotHeight, link, seeMore) {
         this.author = author;
         this.title = title;
+        this.price = price;
         this.image = image;
         this.value = value;
         this.anchor = new p5.Vector(slotX + slotWidth / 2, slotY + slotHeight);
@@ -652,6 +706,9 @@ class ItemSlot {
 
     draw() {
         image(this.image, this.anchor.x - this.scaledSize.x / 2, this.anchor.y - this.scaledSize.y, this.scaledSize.x, this.scaledSize.y)
+        textSize(12);
+        fill(150);
+        text(this.value, this.anchor.x, this.anchor.y + 11.5);
     }
 }
 
