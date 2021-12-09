@@ -33,13 +33,18 @@ html {
 }
 
 body {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-family: "Anonymous Pro", sans-serif;
 }
 
 a {
     text-decoration: none;
     color: inherit;
+    font-family: "Anonymous Pro", sans-serif;
+}
+
+p {
+    font-family: "Montserrat", sans-serif;
 }
 
 
@@ -61,7 +66,7 @@ a {
 nav {
     height: 15rem;
     background: #F0F0F0;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
 }
 
 nav img {
@@ -96,12 +101,96 @@ nav li:hover {
 
 
 
-/* Index page */
+/* Footer */
 
-/* main {
-    width: 90%;
-    max-width: 1000px;
-    background: green;
+footer {
+    margin-top: 70rem;
+    margin-bottom: 15rem;
+    float: none;
+}
+
+#bean {
+    width: 3rem;
     margin-left: auto;
     margin-right: auto;
-} */
+}
+
+#bean img {
+    width: 100%;
+    opacity: 50%;
+    transition: transform 0.2s;
+}
+
+#bean img:hover {
+    transform: rotate(-6deg);
+}
+
+
+
+/* Index page */
+
+#event-splash {
+    width: 100%;
+    height: 60rem;
+    background-image: url("images/event-placeholder.jpg");
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+}
+
+#event-link {
+    padding-top: 47rem;
+    z-index: 2;
+}
+
+#event-link h2 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 3rem;
+}
+
+#event-link p {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+#event-link a {
+    text-decoration: underline;
+}
+
+h1 {
+    margin-top: 12rem;
+    margin-bottom: 10rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 8rem;
+    text-align: center;
+}
+
+h1:hover {
+    font-weight: 400;
+}
+
+#triple-columns div {
+    width: 30%;
+    margin-left: 4.95%; /* Better to be a hair under, than to unexpectedly wrap below */
+    float: left;
+}
+
+#triple-columns div:first-child {
+    margin-left: 0;
+}
+
+#triple-columns h2 {
+    font-size: 3rem;
+    height: 6rem;
+    margin-bottom: 4rem;
+}
+
+#triple-columns p {
+    height: 13rem;
+}
+
+#triple-columns a {
+    text-decoration: underline;
+}
