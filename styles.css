@@ -1,18 +1,107 @@
+/* Web fonts */
+
+/* Body font: Montserrat Regular, Regular Italic & Bold */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,700&display=swap');
+
+/* Header font: Sometype Mono Medium */
+@font-face {
+  font-family: 'Sometype Mono';
+  font-weight: 500;
+  src: url('fonts/sometype-mono-medium.woff2') format('woff2'), url('fonts/sometype-mono-medium.woff') format('woff');
+}
+
+/* Anonymous Pro Regular, Regular Italic, Bold */
+
+@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400&display=swap');
+
+
+
+/* Global reset */
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Base settings */
+
 html {
-    width: 100%;
-    height: 100%;
+    font-size: 62.5%; /* 10 px, changes with browser scale settings */
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 2rem;
+    font-family: "Anonymous Pro", sans-serif;
 }
 
-p {
-    font: bold 40px sans-serif;
+a {
+    text-decoration: none;
+    color: inherit;
 }
+
+
+
+.float-clear {
+    float: none;
+}
+
+.full-width {
+    max-width: 1000px;
+    margin: 0 auto 0 auto;
+    padding: 0 2rem 0 2rem;
+}
+
+
+
+/* Navbar */
+
+nav {
+    height: 15rem;
+    background: #F0F0F0;
+    margin-bottom: 2rem;
+}
+
+nav img {
+    height: 13rem;
+    float: left;
+    margin-top: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    float: right;
+}
+
+nav li {
+    float: left;
+    font-size: 2.4rem;
+    padding: 1rem 1.3rem 1rem 1.3rem;
+    margin-left: 3rem;
+    margin-top: 5.1rem;
+    border-radius: 1rem;
+    font-weight: 400;
+}
+
+nav a:first-child li {
+    margin-left: none;
+}
+
+nav li:hover {
+    background: #E0E0E0;
+    font-weight: 700;
+}
+
+
+
+/* Index page */
+
+/* main {
+    width: 90%;
+    max-width: 1000px;
+    background: green;
+    margin-left: auto;
+    margin-right: auto;
+} */
