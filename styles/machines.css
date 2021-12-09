@@ -1,0 +1,69 @@
+/* Map page */
+
+#map-box {
+    width: 100%;
+    z-index: -1;
+}
+
+.map-pin {
+    position: relative;
+    width: 3rem;
+}
+
+.map-pin:hover {
+    transform: scale(1.2) translateY(-0.263rem);
+}
+
+#pin-1 {
+    left: 19.5rem;
+    top: -9rem;
+}
+
+#pin-2 {
+    left: 52rem;
+    top: -64rem;
+}
+
+#pin-3 {
+    left: 47.25rem;
+    top: -25rem;
+}
+
+
+
+/* Machine pages */
+
+.column-left {
+    float: left;
+    width: 30%;
+}
+
+.column-left img {
+    width: 100%;
+}
+
+.column-right {
+    float: left;
+    width: 65%;
+    margin-left: 4.95%;
+}
+
+.column-right a {
+    font-family: inherit;
+}
+
+h1 {
+    margin-bottom: 2rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+
+
+/* Footer */
+
+footer {
+    margin-top: 80rem;
+}
