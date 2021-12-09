@@ -1,0 +1,63 @@
+/* Events */
+
+h1 {
+    margin-bottom: 3rem;
+    font-size: 4.2rem;
+}
+
+p {
+    margin-bottom: 3rem;
+}
+
+.event {
+    float: left;
+    width: 47.5%;
+    margin-right: 2.5%;
+    pointer-events: none;
+    margin-bottom: -7rem;
+}
+
+.event a {
+    text-decoration: none;
+}
+
+.event img {
+    width: 100%;
+    border-radius: 2rem;
+    pointer-events: auto;
+}
+
+.event h3 {
+    color: white;
+    font-size: 2.4rem;
+    width: 80%;
+    position: relative;
+    bottom: 4.8rem;
+    left: 2rem;
+    transition: transform 0.15s;
+}
+
+.event:hover h3 {
+    transform: translateY(-4.5rem);
+}
+
+.event p {
+    color: white;
+    opacity: 0%;
+    font-size: 1.6rem;
+    width: 90%;
+    height: 3rem;
+    position: relative;
+    bottom: 4.8rem;
+    left: 2rem;
+    transition: all 0.15s;
+}
+
+.event:hover p {
+    transform: translateY(-4rem);
+    opacity: 100%;
+}
+
+footer {
+    margin-top: 110rem;
+}
