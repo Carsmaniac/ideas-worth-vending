@@ -50,6 +50,10 @@
 
 /* Index page */
 
+a {
+    font-family: "Anonymous Pro", sans-serif;
+}
+
 #event-splash {
     width: 100%;
     height: 60rem;

@@ -22,11 +22,17 @@
 #pin-2 {
     left: 52rem;
     top: -64rem;
+    opacity: 60%;
 }
 
 #pin-3 {
     left: 47.25rem;
     top: -25rem;
+    opacity: 60%;
+}
+
+#pin-2:hover, #pin-3:hover {
+    opacity: 100%;
 }
 
 
@@ -59,6 +65,7 @@ h1 {
 
 p {
     margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
 
