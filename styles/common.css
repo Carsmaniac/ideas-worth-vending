@@ -61,6 +61,27 @@ p {
 
 
 
+/* Feedback button */
+
+#feedback {
+    position: fixed;
+    right: 6rem;
+    bottom: 6rem;
+    padding: 2rem 4rem 2rem 4rem;
+    background: rgb(90, 200, 150);
+    border: none;
+    border-radius: 4rem;
+    transition: background 0.15s;
+    font-size: 2rem;
+}
+
+#feedback:hover {
+    cursor: pointer;
+    background: rgb(80, 220, 140);
+}
+
+
+
 /* Navbar */
 
 nav {
