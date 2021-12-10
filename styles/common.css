@@ -89,10 +89,17 @@ nav {
     margin-bottom: 5rem;
 }
 
-nav img {
+#logo {
     height: 13rem;
+    width: 26rem;
+    background-image: url("../images/site-logo.png");
+    background-size: contain;
     float: left;
     margin-top: 1rem;
+}
+
+#logo:hover {
+    background-image: url("../images/site-logo-alt.png");
 }
 
 nav ul {
