@@ -1,3 +1,53 @@
+/* Prototype website heads up overlay */
+
+#prototype-heads-up {
+    background: rgba(0, 0, 0, 0.75);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    color: black;
+    z-index: 5;
+    /* display: none; */
+}
+
+#text-bubble {
+    width: 100%;
+    max-width: 800px;
+    margin: 20rem auto 0 auto;
+    padding: 4rem;
+    border-radius: 3rem;
+    background: rgba(255, 255, 255, 1);
+}
+
+#text-bubble h3 {
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+    font-size: 6rem;
+}
+
+#text-bubble p {
+    font-size: 2rem;
+    margin: 0 auto 3rem auto;
+}
+
+#text-bubble button {
+    padding: 2rem 4rem 2rem 4rem;
+    margin-top: 2.5rem;
+    background: rgb(210, 210, 210);
+    border: none;
+    border-radius: 2rem;
+    font-size: 2rem;
+}
+
+#text-bubble button:hover {
+    background: rgb(170, 170, 170);
+}
+
+
+
 /* Index page */
 
 #event-splash {
