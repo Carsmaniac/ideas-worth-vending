@@ -73,22 +73,22 @@ function setup() {
     drawOffset = new p5.Vector((width - drawWidth) / 2, (height - drawHeight) / 2);
     drawScale = drawWidth / drawCanvasSize.x;
 
-    items.push(new ItemSlot("Corie Lange", "The Grrrls of the Riot", "$8", imageGrrrls, "A1", 152, 86, 41, 64, "https://www.instagram.com/c.a.lange/", false));
-    items.push(new ItemSlot("Jules Rountree", "Titty Stickers", "$6", imageStickerPack, "A2", 197, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Annie Walker", "Questions About Gender", "$2", imageQuestionsAboutGender, "A3", 242, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Arlee Francis", "A Little Pack of Poems", "$6", imagePackOfPoems, "A4", 287, 56, 41, 94, "beans", true));
-    items.push(new ItemSlot("Annie Walker", "Pictures of Vin Diesel Taking a Selfie", "$2", imagePicturesOfVinDiesel, "A5", 332, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Henry Indorato", "Australian Gothic", "$2", imageAustralianGothic, "A6", 377, 86, 41, 64, "https://www.instagram.com/localamity/", false));
-    items.push(new ItemSlot("Annie Walker", "Half-Baked Ideas That I Put on My Instagram Story", "$2", imageHalfBakedIdeas, "A7", 422, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Jules Rountree", "Emoji That Don't Exist Yet Stickers", "$4", imageEmojiThatDontExist, "A8", 467, 86, 41, 64, "beans", true));
-    items.push(new ItemSlot("Nick Brouggy", "Postcards from a Dying World", "$6", imagePostCards, "B1", 152, 189, 86, 101, "https://www.instagram.com/caffeinatedpolygon/", false));
+    items.push(new ItemSlot("Corie Lange", "The Grrrls of the Riot", "$8", imageGrrrls, "A1", 152, 86, 41, 64, "https://www.instagram.com/c.a.lange/", true));
+    items.push(new ItemSlot("Jules Rountree", "Titty Stickers", "$6", imageStickerPack, "A2", 197, 86, 41, 64, "beans", false));
+    items.push(new ItemSlot("Annie Walker", "Questions About Gender", "$2", imageQuestionsAboutGender, "A3", 242, 86, 41, 64, "beans", false));
+    items.push(new ItemSlot("Arlee Francis", "A Little Pack of Poems", "$6", imagePackOfPoems, "A4", 287, 56, 41, 94, "beans", false));
+    items.push(new ItemSlot("Annie Walker", "Pictures of Vin Diesel Taking a Selfie", "$2", imagePicturesOfVinDiesel, "A5", 332, 86, 41, 64, "beans", false));
+    items.push(new ItemSlot("Henry Indorato", "Australian Gothic", "$2", imageAustralianGothic, "A6", 377, 86, 41, 64, "https://www.instagram.com/localamity/", true));
+    items.push(new ItemSlot("Annie Walker", "Half-Baked Ideas That I Put on My Instagram Story", "$2", imageHalfBakedIdeas, "A7", 422, 86, 41, 64, "beans", false));
+    items.push(new ItemSlot("Jules Rountree", "Emoji That Don't Exist Yet Stickers", "$4", imageEmojiThatDontExist, "A8", 467, 86, 41, 64, "beans", false));
+    items.push(new ItemSlot("Nick Brouggy", "Postcards from a Dying World", "$6", imagePostCards, "B1", 152, 189, 86, 101, "https://www.instagram.com/caffeinatedpolygon/", true));
     items.push(new ItemSlot("Bella Francis", "Photographs from Past Adventures", "$6", imageItaly, "B2", 242, 189, 86, 101, "https://www.instagram.com/", false));
-    items.push(new ItemSlot("Georgia Plantzos", "Lucky Dip Films", "$6", imageLuckyDipFilms, "B3", 332, 189, 86, 101, "beans", true));
-    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "B4", 422, 189, 86, 101, "beans", true));
-    items.push(new ItemSlot("Annie Walker", "Commie By Your Name", "$4", imageCommie, "C1", 152, 329, 86, 101, "beans", true));
-    items.push(new ItemSlot("Chloe Kelly", "The Scooby Doos and the Scooby Doon'ts", "$6", imageTheScoobyDoos, "C2", 242, 329, 86, 101, "https://www.instagram.com/chloekellymcfadden/", false));
+    items.push(new ItemSlot("Georgia Plantzos", "Lucky Dip Films", "$6", imageLuckyDipFilms, "B3", 332, 189, 86, 101, "beans", false));
+    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "B4", 422, 189, 86, 101, "beans", false));
+    items.push(new ItemSlot("Annie Walker", "Commie By Your Name", "$4", imageCommie, "C1", 152, 329, 86, 101, "beans", false));
+    items.push(new ItemSlot("Chloe Kelly", "The Scooby Doos and the Scooby Doon'ts", "$6", imageTheScoobyDoos, "C2", 242, 329, 86, 101, "https://www.instagram.com/chloekellymcfadden/", true));
     items.push(new ItemSlot("Tatiana Davidson", "Moon Boy", "$4", imageMoonBoy, "C3", 332, 329, 86, 101, "https://www.instagram.com/", false));
-    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "C4", 422, 329, 86, 101, "beans", true));
+    items.push(new ItemSlot("Author", "Title", "Price", imageEmpty, "C4", 422, 329, 86, 101, "beans", false));
 
     keypad.push(new KeypadButton(674, 232, "A"));
     keypad.push(new KeypadButton(748, 232, "1"));
@@ -307,24 +307,35 @@ function drawZoomScreen() {
     if (zoomPercent == 100) {
         fill(255);
         textSize(35);
-        rect(drawCanvasSize.x / 2 - 190 / 2 - 15 - 80, drawCanvasSize.y - 95, 190 + 30, 63, 10);
-        rect(drawCanvasSize.x / 2 - 106 / 2 - 15 + 120, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+        if (chosenItem.seeMore) {
+            rect(drawCanvasSize.x / 2 - 190 / 2 - 15 - 80, drawCanvasSize.y - 95, 190 + 30, 63, 10);
+            rect(drawCanvasSize.x / 2 - 106 / 2 - 15 + 120, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+        } else {
+            rect(drawCanvasSize.x / 2 - 106 / 2 - 15, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+        }
         fill(0);
         if (chosenItem.seeMore) {
             text("See more", drawCanvasSize.x / 2 - 80, drawCanvasSize.y - 51);
+            text("Close", drawCanvasSize.x / 2 + 120, drawCanvasSize.y - 51);
         } else {
-            text("See artist", drawCanvasSize.x / 2 - 80, drawCanvasSize.y - 51);
+            text("Close", drawCanvasSize.x / 2, drawCanvasSize.y - 51);
         }
-        text("Close", drawCanvasSize.x / 2 + 120, drawCanvasSize.y - 51);
         cursor(ARROW);
         if (drawMousePos.y > drawCanvasSize.y - 95 && drawMousePos.y < drawCanvasSize.y - 32) {
             fill(255, 255, 255, 150);
+            if (chosenItem.seeMore) {
             if (drawMousePos.x > drawCanvasSize.x / 2 - 190 / 2 - 15 - 80 && drawMousePos.x < drawCanvasSize.x / 2 + 190 / 2 - 15 - 80 + 30) {
-                cursor("pointer");
-                rect(drawCanvasSize.x / 2 - 190 / 2 - 15 - 80, drawCanvasSize.y - 95, 190 + 30, 63, 10);
-            } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
-                cursor("pointer");
-                rect(drawCanvasSize.x / 2 - 106 / 2 - 15 + 120, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+                    cursor("pointer");
+                    rect(drawCanvasSize.x / 2 - 190 / 2 - 15 - 80, drawCanvasSize.y - 95, 190 + 30, 63, 10);
+                } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
+                    cursor("pointer");
+                    rect(drawCanvasSize.x / 2 - 106 / 2 - 15 + 120, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+                }
+            } else {
+                if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 30) {
+                    cursor("pointer");
+                    rect(drawCanvasSize.x / 2 - 106 / 2 - 15, drawCanvasSize.y - 95, 106 + 30, 63, 10);
+                }
             }
         }
     }
@@ -372,21 +383,29 @@ function touchEnded() {
         }
     } else if (interactiveZoom) {
         if (drawMousePos.y > drawCanvasSize.y - 95 && drawMousePos.y < drawCanvasSize.y - 32) {
-            if (drawMousePos.x > drawCanvasSize.x / 2 - 190 / 2 - 15 - 80 && drawMousePos.x < drawCanvasSize.x / 2 + 190 / 2 - 15 - 80 + 30) {
-                // Open link
-                if (chosenItem.seeMore) {
-                    window.alert("This feature's not finished yet, sorry! You'll have to buy one from the physical machine instead :)");
-                } else {
+            if (chosenItem.seeMore) {
+                if (drawMousePos.x > drawCanvasSize.x / 2 - 190 / 2 - 15 - 80 && drawMousePos.x < drawCanvasSize.x / 2 + 190 / 2 - 15 - 80 + 30) {
+                    // Open link
                     window.open(chosenItem.link);
+                } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
+                    // Close
+                    vendStage = 0;
+                    zoomPercent = 0;
+                    buttonsPressed = [];
+                    interactiveZoom = false;
+                    interactiveButtons = true;
+                    chosenItem = null;
                 }
-            } else if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 + 120 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 120 + 30) {
-                // Close
-                vendStage = 0;
-                zoomPercent = 0;
-                buttonsPressed = [];
-                interactiveZoom = false;
-                interactiveButtons = true;
-                chosenItem = null;
+            } else {
+                if (drawMousePos.x > drawCanvasSize.x / 2 - 106 / 2 - 15 && drawMousePos.x < drawCanvasSize.x / 2 + 106 / 2 - 15 + 30) {
+                    // Close
+                    vendStage = 0;
+                    zoomPercent = 0;
+                    buttonsPressed = [];
+                    interactiveZoom = false;
+                    interactiveButtons = true;
+                    chosenItem = null;
+                }
             }
         }
     }
