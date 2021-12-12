@@ -3,16 +3,31 @@
 /* Body font: Montserrat Regular, Regular Italic & Bold */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,700&display=swap');
 
-/* Header font: Sometype Mono Medium */
-@font-face {
-  font-family: 'Sometype Mono';
-  font-weight: 500;
-  src: url('fonts/sometype-mono-medium.woff2') format('woff2'), url('fonts/sometype-mono-medium.woff') format('woff');
-}
-
 /* Anonymous Pro Regular, Regular Italic, Bold */
-
-@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400&display=swap');
+@font-face {
+    font-family: 'Anonymous Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/anonymous-pro-regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Anonymous Pro';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/anonymous-pro-bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Anonymous Pro';
+    font-style: italic;
+    font-weight: 400;
+    src: url('../fonts/anonymous-pro-italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Anonymous Pro';
+    font-style: italic;
+    font-weight: 700;
+    src: url('../fonts/anonymous-pro-bold-italic.ttf') format('truetype');
+}
 
 
 
@@ -34,7 +49,7 @@ html {
 
 body {
     font-size: 1.8rem;
-    font-family: "Anonymous Pro", sans-serif;
+    font-family: 'Anonymous Pro', sans-serif;
 }
 
 a {
