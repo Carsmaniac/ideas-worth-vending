@@ -1,0 +1,94 @@
+/* Artists */
+
+.artist-portrait {
+    float: left;
+    width: 19%;
+    margin-right: 1%;
+    text-align: center;
+    pointer-events: none;
+    margin-bottom: -6.5rem;
+}
+
+.artist-portrait img {
+    width: 100%;
+    border-radius: 2rem;
+    pointer-events: auto;
+    transition: filter 0.2s;
+}
+
+.artist-portrait a {
+    text-decoration: none;
+}
+
+.artist-portrait p {
+    position: relative;
+    bottom: 12rem;
+    color: white;
+    font-family: "Anonymous Pro", monospace;
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 1.6rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.artist-portrait:hover img {
+    filter: brightness(0.6) saturate(0.5) contrast(0.6);
+}
+
+.artist-portrait:hover p {
+    opacity: 1;
+}
+
+footer {
+    margin-top: 95rem;
+}
+
+
+
+/* Artist pages */
+
+.column-left {
+    float: left;
+    width: 30%;
+}
+
+.column-left img {
+    width: 100%;
+    border-radius: 2rem;
+}
+
+.column-left p {
+    margin-bottom: 0;
+}
+
+.column-left a {
+    text-decoration: none;
+}
+
+.artist-link {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.artist-link img {
+    width: 3.5rem;
+    border-radius: 1rem;
+    margin: 1rem;
+}
+
+.artist-link p {
+    margin-bottom: 0;
+    font-size: 2rem;
+}
+
+.column-right {
+    float: left;
+    width: 65%;
+    margin-left: 4.95%;
+}
+
+.column-right a {
+    font-family: inherit;
+}
