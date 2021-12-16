@@ -16,18 +16,18 @@
     font-weight: 700;
     src: url('../fonts/anonymous-pro-bold.ttf') format('truetype');
 }
-@font-face {
+/* @font-face {
     font-family: 'Anonymous Pro';
     font-style: italic;
     font-weight: 400;
     src: url('../fonts/anonymous-pro-italic.ttf') format('truetype');
-}
-@font-face {
+} */
+/* @font-face {
     font-family: 'Anonymous Pro';
     font-style: italic;
     font-weight: 700;
     src: url('../fonts/anonymous-pro-bold-italic.ttf') format('truetype');
-}
+} */
 
 
 
@@ -41,7 +41,7 @@
 
 
 
-/* Base settings */
+/* Typography */
 
 html {
     font-size: 62.5%; /* 10 px, changes with browser scale settings */
@@ -49,7 +49,7 @@ html {
 
 body {
     font-size: 1.8rem;
-    font-family: 'Anonymous Pro', sans-serif;
+    color: #161616;
 }
 
 a {
@@ -57,11 +57,48 @@ a {
     text-decoration: underline;
 }
 
+h1, h2, h3 {
+    font-family: 'Anonymous Pro', monospace;
+}
+
+h1 {
+    margin-bottom: 3rem;
+    font-size: 4.2rem;
+}
+
+h2 {
+    margin-bottom: 2rem;
+}
+
 p {
     font-family: "Montserrat", sans-serif;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+main li {
+    margin-top: 0.5rem;
+}
+
+main ul {
+    list-style: none;
+    font-family: "Montserrat", sans-serif;
+    margin-bottom: 2rem;
+}
+
+main p a {
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+}
+
+main p a:hover {
+    background-color: #161616;
+    color: white;
 }
 
 
+
+/* General styling classes */
 
 .float-clear {
     float: none;
@@ -103,6 +140,7 @@ nav ul {
 
 nav a {
     text-decoration: none;
+    font-family: "Anonymous Pro", monospace;
 }
 
 nav li {

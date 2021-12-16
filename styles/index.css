@@ -79,7 +79,7 @@ a {
     margin-bottom: 0.5rem;
 }
 
-h1 {
+#tagline {
     margin-top: 12rem;
     margin-bottom: 10rem;
     font-weight: 700;
@@ -88,7 +88,7 @@ h1 {
     text-align: center;
 }
 
-h1:hover {
+#tagline:hover {
     font-weight: 400;
 }
 
